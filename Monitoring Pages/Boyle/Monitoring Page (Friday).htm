@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 8px;
+			text-align: left;
+		}
+		td.editable {
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+<!-- First Table -->
+
+	<table id="firstTable">
+		<thead>
+			<tr>
+				<th>(Monday)</th>
+				<th class="editable"> (Date) </th>
+				<th>1st Subject</th>
+				<th>2nd Subject</th>
+				<th>3rd Subject</th>
+				<th>4th Subject</th>
+				<th>5th Subject</th>
+				<th>6th Subject</th>
+				<th>7th Subject</th>
+				<th>8th Subject</th>
+				<th>Adviser's Confirmation: </th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>NAME OF STUDENTS:</td>
+				<td class="editable"></td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">1. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">2. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">3. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">4. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">5. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">6. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">7. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td class="editable">8. </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>Cleanliness and Orderliness of the Classroom:</td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td class="editable" data-include-average="true"></td>
+				<td>Average: <span id="averageResult">0</span></td>
+			</tr>
+		</tbody>
+	</table>
+
+<script>
+// Function to calculate the average
+function calculateAverage() {
+    let sum = 0;
+    let count = 0;
+    
+    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
+    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
+    
+    // Loop through each editable cell and sum the values
+    editableCells.forEach(function(cell) {
+        let cellValue = parseFloat(cell.textContent.trim());
+        if (!isNaN(cellValue)) {
+            sum += cellValue;
+            count++;
+        }
+    });
+    
+    // Calculate the average
+    let average = (count > 0) ? sum / count : 0;
+    
+    // Display the result in the 'averageResult' span
+    document.getElementById('averageResult').textContent = average.toFixed(2);
+}
+
+// Event listener for editing cells
+function makeEditable() {
+    let editableCells = document.querySelectorAll('.editable');
+    
+    editableCells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            let currentText = cell.textContent.trim();
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+
+            // Replace the cell content with an input box
+            cell.textContent = '';
+            cell.appendChild(input);
+
+            // Focus the input
+            input.focus();
+
+            // When input is finished, update the cell content and recalculate the average
+            input.addEventListener('blur', function() {
+                let newValue = input.value.trim();
+                cell.textContent = newValue || ''; // If blank, leave the cell empty
+                calculateAverage();
+            });
+
+            // Allow editing with 'Enter' key
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
+            });
+        });
+    });
+}
+
+// Function to save data to localStorage
+function saveData() {
+    const cells = document.querySelectorAll('.editable');
+    const data = [];
+    cells.forEach((cell, index) => {
+        data[index] = cell.innerText.trim();
+    });
+    localStorage.setItem('tableData', JSON.stringify(data));
+}
+
+// Function to load data from localStorage
+function loadData() {
+    const data = JSON.parse(localStorage.getItem('tableData'));
+    if (data) {
+        const cells = document.querySelectorAll('.editable');
+        cells.forEach((cell, index) => {
+            if (data[index]) {
+                cell.innerText = data[index];
+            }
+        });
+    }
+}
+
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
+// Load data when the page is loaded
+window.addEventListener('load', function() {
+    loadData();
+    makeEditable();
+    calculateAverage();
+});
+</script>
+
+
+
+<!-- Second Table -->
+
+	<table id="secondTable">
+		<thead>
+			<tr>
+				<th></th>
+				<th>TEACHER'S REMARKS</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>2.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>3.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>4.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>5.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>6.</td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>7. </td>
+				<td class="editable"> </td>
+			</tr>
+			<tr>
+				<td>8. </td>
+				<td class="editable"> </td>
+			</tr>
+	</table>
+
+<!-- Constant Tables -->
+<table border="3">
+	<tr>
+		<th>Indicators: </th>
+	</tr>
+	<tr>
+		<td>1. Floor and window sills are free of trash. Bags, student belongings, and other classroom materials not currently in use are neatly placed/stored under the seats, tables, and/or in the designated area.</td>
+	</tr>
+	<tr>
+		<td>2. Whiteboard and/or blackboard are free from writings.</td>
+	</tr>
+	<tr>
+		<td>3. Tables and chairs are well-arranged. Aisles are clear.</td>
+	</tr>
+	<tr>
+		<td>4. Proper waste segregation is well observed. Trash bins are not overflowing.</td>
+	</tr>
+	<tr>
+		<td>5. Corridor is tidy. It is free from trash and obstructions.</td>
+	</tr>
+</table>
+
+<table border="1">
+	<tr>
+		<th>Rubrics</th>
+	</tr>
+	<tr>
+		<td>5 if all indicators are evident</td>
+	</tr>
+	<tr>
+		<td>4 if 4 indicators are evident</td>
+	</tr>
+	<tr>
+		<td>3 if 3 indicators are evident</td>
+	</tr>
+	<tr>
+		<td>2 if 2 indicators are evident</td>
+	</tr>
+	<tr>
+		<td>1 if 1 indicator is evident</td>
+	</tr>
+	</table>
+
+
+
+<!-- Third Table -->
+	<table id="thirdTable">
+		<thead>
+			<tr>
+				<th>Gen. Ave. Rating</th>
+				<th>TEACHERS REMARKS:</th><th>Adviser's Confirmation</th>
+		</thead>
+		<tbody>
+			</tr>
+			<tr>
+				<td class="editable">- </td>
+				<td class="editable">- </td>
+				<td class="editable">- </td>
+		</tbody>
+	</table>
+
+	<script>
+// Function to save data to localStorage
+        function saveData() {
+            const cells = document.querySelectorAll('.editable');
+            const data = [];
+            cells.forEach((cell, index) => {
+                data[index] = cell.innerHTML;
+            });
+            localStorage.setItem('tableData', JSON.stringify(data));
+        }
+
+        // Function to load data from localStorage
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('tableData'));
+            if (data) {
+                const cells = document.querySelectorAll('.editable');
+                cells.forEach((cell, index) => {
+                    if (data[index]) {
+                        cell.innerText = data[index];
+                    }
+                });
+            }
+        }
+		// Add event listener to table to make cells editable
+		document.querySelectorAll('.editable').forEach(cell => {
+			cell.addEventListener('click', function() {
+			// Create an input field to edit the content of the cell
+			let currentValue = this.innerText;
+			let input = document.createElement('input');
+			input.type = 'text';
+			input.value = currentValue;
+                
+			// Replace the cell content with the input field
+			this.innerHTML = '';
+			this.appendChild(input);
+
+			// Focus the input and select its content for easy editing
+			input.focus();
+			input.select();
+
+			// When the user clicks outside the input or presses Enter, save the changes
+			input.addEventListener('blur', saveEdit);
+			input.addEventListener('keydown', function(event) {
+				if (event.key === 'Enter') {
+					saveEdit();
+				}
+			});
+
+			function saveEdit() {
+				// Save the new value back to the cell
+                    let newValue = input.value;
+                    if (newValue !== currentValue) {
+                        cell.innerText = newValue;
+                    } else {
+                        cell.innerText = currentValue;
+                    }
+// Save the data after editing
+                    saveData();
+
+                    // Clean up the event listeners
+                    input.removeEventListener('blur', saveEdit);
+                    input.removeEventListener('keydown', saveEdit);
+
+                }
+            });
+        });
+// Load data when the page is loaded
+window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>
