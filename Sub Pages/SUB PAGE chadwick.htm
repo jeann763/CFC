@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Button Customization</title>
+	<style>
+		/* Apply full-screen height and center content */
+		body, html {
+			height: 100%;
+			margin: 0;
+			display: flex;
+			align-items: center; /* Vertically center */
+			justify-content: center; /* Horizontally center */
+			background-color: #f0f0f0; /* Optional: Set a light background color */
+		}
+
+		/* Create a grid layout with 3 columns */
+		.container {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+			grid-gap: 20px; /* Space between buttons */
+			justify-items: center; /* Center the buttons within each column */
+			text-align: center; /* Center text in buttons */
+		}
+
+		/* Style buttons for consistent appearance */
+		button {
+			font-size: 50px;
+			padding: 20px 40px;
+			border: none;
+			border-radius: 5px;
+			color: white;
+			cursor: pointer;
+			text-align: center;
+			width: 250px; /* Standard width */
+		}
+
+		/* Customize button sizes and colors */
+		#confirmButton1 {
+			background-color: #4CAF50;
+			width: 300px; /* Larger size */
+			height: 100px;
+		}
+		#confirmButton2 {
+			background-color: #2196F3;
+			width: 300px;
+			height: 100px;
+		}
+		#confirmButton3 {
+			background-color: #f44336;
+			width: 300px; /* Larger size */
+			height: 100px;
+		}
+		#confirmButton4 {
+			background-color: #ff9800;
+			width: 300px;
+			height: 100px;
+		}
+		#confirmButton5 {
+			background-color: #9C27B0;
+			width: 320px;
+			height: 100px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<!-- Buttons -->
+		<button id="confirmButton1" onclick="confirmAction()">Monday</button>
+		<button id="confirmButton2" onclick="confirmAction()">Tuesday</button>
+		<button id="confirmButton3" onclick="confirmAction()">Wednesday</button>
+		<button id="confirmButton4" onclick="confirmAction()">Thursday</button>
+		<button id="confirmButton5" onclick="confirmAction()">Friday</button>
+
+		<!-- New button to show the current URL as a hyperlink -->
+		<button onclick="showCurrentURL()">Show Current URL as Hyperlink</button>
+
+		<!-- Placeholder for displaying the hyperlink -->
+		<div id="urlContainer"></div>
+	</div>
+
+	<script>
+		// Function to redirect to the given URL
+		function confirmAction(url) {
+			// You can add additional logic or confirmation before redirecting, if needed
+			window.location.href = url;
+		}
+
+		// Function to show the current URL as a hyperlink
+		function showCurrentURL() {
+			const currentURL = window.location.href; // Get the current URL
+			const urlContainer = document.getElementById("urlContainer");
+
+			// Create a hyperlink element
+			const link = document.createElement("a");
+			link.href = currentURL;
+			link.textContent = currentURL; // Set the URL as link text
+			link.target = "_blank"; // Open the link in a new tab
+
+			// Display the hyperlink in the page
+			urlContainer.innerHTML = ""; // Clear any previous content
+			urlContainer.appendChild(link);
+		}
+	</script>
+
+</body>
+
+</html>
