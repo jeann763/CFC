@@ -82,9 +82,6 @@
 		<button id="confirmButton5" onclick="confirmAction()">Friday</button>
 		<button id="confirmButton6" onclick="confirmAction('index.html')" aria-label="Go back to the index page">Back</button>
 
-
-		<!-- Placeholder for displaying the hyperlink -->
-		<div id="urlContainer"></div>
 	</div>
 
 	<script>
@@ -92,17 +89,6 @@
 		function confirmAction(url) {
 			// You can add additional logic or confirmation before redirecting, if needed
 			window.location.href = url;
-		}
-
-			// Create a hyperlink element
-			const link = document.createElement("a");
-			link.href = currentURL;
-			link.textContent = currentURL; // Set the URL as link text
-			link.target = "_blank"; // Open the link in a new tab
-
-			// Display the hyperlink in the page
-			urlContainer.innerHTML = ""; // Clear any previous content
-			urlContainer.appendChild(link);
 		}
 	</script>
 
