@@ -80,35 +80,18 @@
 		<button id="confirmButton3" onclick="confirmAction()">Wednesday</button>
 		<button id="confirmButton4" onclick="confirmAction()">Thursday</button>
 		<button id="confirmButton5" onclick="confirmAction()">Friday</button>
-
-		<!-- New button to show the current URL as a hyperlink -->
-		<button id="confirmButton6" onclick="confirmAction('index.html')">Back</button>
-
-		<!-- Placeholder for displaying the hyperlink -->
-		<div id="urlContainer"></div>
+		<button id="confirmButton6" onclick="confirmAction('../index.html')" aria-label="Go back to the index page">Back</button>
 	</div>
 
 	<script>
 		// Function to redirect to the given URL
 		function confirmAction(url) {
-			// You can add additional logic or confirmation before redirecting, if needed
-			window.location.href = url;
-		}
-
-		// Function to show the current URL as a hyperlink
-		function showCurrentURL() {
-			const currentURL = window.location.href; // Get the current URL
-			const urlContainer = document.getElementById("urlContainer");
-
-			// Create a hyperlink element
-			const link = document.createElement("a");
-			link.href = currentURL;
-			link.textContent = currentURL; // Set the URL as link text
-			link.target = "_blank"; // Open the link in a new tab
-
-			// Display the hyperlink in the page
-			urlContainer.innerHTML = ""; // Clear any previous content
-			urlContainer.appendChild(link);
+			if (url) {
+				window.location.href = url;
+			} else {
+				// Optionally, you can handle cases when no URL is passed, e.g., show an alert or log something
+				console.log("No URL provided");
+			}
 		}
 	</script>
 
