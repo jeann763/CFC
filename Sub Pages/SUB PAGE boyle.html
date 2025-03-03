@@ -63,6 +63,11 @@
 			width: 320px;
 			height: 100px;
 		}
+		#confirmButton6 {
+			background-color: #000000;
+			width: 320px;
+			height: 100px;
+		}
 	</style>
 </head>
 
@@ -70,14 +75,14 @@
 
 	<div class="container">
 		<!-- Buttons -->
-		<button id="confirmButton1" onclick="confirmAction('')">Monday</button>
+		<button id="confirmButton1" onclick="confirmAction()">Monday</button>
 		<button id="confirmButton2" onclick="confirmAction()">Tuesday</button>
 		<button id="confirmButton3" onclick="confirmAction()">Wednesday</button>
 		<button id="confirmButton4" onclick="confirmAction()">Thursday</button>
 		<button id="confirmButton5" onclick="confirmAction()">Friday</button>
 
 		<!-- New button to show the current URL as a hyperlink -->
-		<button onclick="confirmAction('index.html')">Back</button>
+		<button id="confirmButton6" onclick="confirmAction('index.html')">Back</button>
 
 		<!-- Placeholder for displaying the hyperlink -->
 		<div id="urlContainer"></div>
