@@ -86,8 +86,12 @@
 	<script>
 		// Function to redirect to the given URL
 		function confirmAction(url) {
-			// You can add additional logic or confirmation before redirecting, if needed
-			window.location.href = url;
+			if (url) {
+				window.location.href = url;
+			} else {
+				// Optionally, you can handle cases when no URL is passed, e.g., show an alert or log something
+				console.log("No URL provided");
+			}
 		}
 	</script>
 
