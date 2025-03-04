@@ -21,8 +21,6 @@
 <body>
 
 <button onclick="window.location.href='../../Sub Pages/SUBPAGEboyle.html'">Back</button>
-
-<button id="editButton" onclick="promptForPin()">Edit</button>
 	
 <!-- First Table -->
 
@@ -171,52 +169,6 @@
 	</table>
 
 <script>
-// Function to prompt for PIN and enable editing if correct
-let correctPin = '1234'; // Example PIN
-function promptForPin() {
-    const pin = prompt("Please enter the 4-digit PIN:");
-    if (pin === correctPin) {
-        enableEditing();
-    } else {
-        alert("Incorrect PIN! Editing is not allowed.");
-    }
-}
-
-// Enable editing of cells
-function enableEditing() {
-    const editableCells = document.querySelectorAll('.editable');
-    editableCells.forEach(cell => {
-        cell.addEventListener('click', makeEditable);
-    });
-
-    // Change the text of the "Edit" button to "Disable Editing"
-    document.getElementById('editButton').textContent = 'Disable Editing';
-}
-
-// Function to disable editing after confirm action
-function confirmAction() {
-    // Disable the confirm button after confirmation
-    const confirmButton = document.getElementById('confirmButton');
-    confirmButton.textContent = 'Confirmed';
-    confirmButton.disabled = true;
-
-    // Disable all editable cells
-    disableEditing();
-
-    // Save the confirmed state to localStorage
-    localStorage.setItem('confirmed', 'true');
-    alert("Confirmation is complete.");
-}
-
-// Function to disable editing on all editable cells
-function disableEditing() {
-    const editableCells = document.querySelectorAll('.editable');
-    editableCells.forEach(cell => {
-        cell.removeEventListener('click', makeEditable); // Remove click event for editing
-        cell.classList.add('disabled'); // Optionally, you can style them as disabled (CSS)
-        cell.setAttribute('contenteditable', false); // Disables content editing on the cell
-    });
-}
 
 // Make table cells editable
 function makeEditable() {
