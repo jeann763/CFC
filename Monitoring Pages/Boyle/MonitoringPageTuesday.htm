@@ -22,7 +22,7 @@
 
 <button onclick="window.location.href='../../Sub Pages/SUBPAGEboyle.html'">Back</button>
 
-<button id="editButton">Edit</button>
+<button id="editButton" onclick="promptForPin()">Edit</button>
 	
 <!-- First Table -->
 
@@ -55,7 +55,8 @@
 				<td class="editable"> </td>
 				<td class="editable"> </td>
 				<td class="editable"> </td>
-				<td><button id="confirmButton"> Confirm </button></td>
+				<td><button id="confirmButton" onclick="disableEditing()">Confirm</button>
+</td>
 			</tr>
 			<tr>
 				<td class="editable">1. </td>
