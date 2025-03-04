@@ -1,1 +1,182 @@
-rank lel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        td.editable {
+            cursor: pointer;
+        }
+        th {
+            cursor: pointer;
+        }
+    </style>
+    <title>Student Scores</title>
+</head>
+
+<body>
+    <h2>Student Scores</h2>
+
+    <table id="scoresTable">
+        <thead>
+            <tr>
+                <th>Section</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Total Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- The table will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Array of URLs containing HTML files with the data
+        const urls = [
+            'Monitoring Pages/Boyle/MonitoringPageMonday.htm', 'Monitoring Pages/Boyle/MonitoringPageTuesday.htm;'
+        ];
+
+        // Function to fetch data from multiple URLs and populate the table
+        function fetchDataFromMultipleLinks() {
+            const promises = urls.map(url => fetch(url).then(response => response.text()));
+            
+            Promise.all(promises).then(results => {
+                results.forEach((htmlContent, index) => {
+                    // Parse each HTML response and extract the necessary data
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                    // Assuming the HTML structure in each file contains a <div> with data
+                    // You would modify this based on how your HTML files are structured
+                    const section = doc.querySelector('.section').textContent;
+                    const monday = parseFloat(doc.querySelector('.monday').textContent);
+                    const tuesday = parseFloat(doc.querySelector('.tuesday').textContent);
+                    const wednesday = parseFloat(doc.querySelector('.wednesday').textContent);
+                    const thursday = parseFloat(doc.querySelector('.thursday').textContent);
+                    const friday = parseFloat(doc.querySelector('.friday').textContent);
+                    const totalScore = monday + tuesday + wednesday + thursday + friday;
+
+                    // Now populate the table
+                    const tbody = document.querySelector('#scoresTable tbody');
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${section}</td>
+                        <td class="editable">${monday}</td>
+                        <td class="editable">${tuesday}</td>
+                        <td class="editable">${wednesday}</td>
+                        <td class="editable">${thursday}</td>
+                        <td class="editable">${friday}</td>
+                        <td class="totalScore">${totalScore}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // After all data is fetched and the table is populated, calculate and sort
+                makeEditable();
+                calculateTotalScores();
+            }).catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        }
+
+        // Function to make table cells editable
+        function makeEditable() {
+            const editableCells = document.querySelectorAll('.editable');
+            editableCells.forEach(function(cell) {
+                cell.addEventListener('click', function() {
+                    let currentText = cell.textContent.trim();
+                    let input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = currentText;
+
+                    // Replace the cell content with an input box
+                    cell.textContent = '';
+                    cell.appendChild(input);
+
+                    // Focus the input
+                    input.focus();
+
+                    // When input is finished, update the cell content and recalculate the total score
+                    input.addEventListener('blur', function() {
+                        let newValue = parseFloat(input.value.trim());
+                        if (!isNaN(newValue)) {
+                            cell.textContent = newValue; // Update the cell value
+                        } else {
+                            cell.textContent = ''; // If input is invalid, leave it empty
+                        }
+                        calculateTotalScores(); // Recalculate total scores after editing
+                    });
+
+                    // Allow editing with 'Enter' key
+                    input.addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter') {
+                            input.blur();
+                        }
+                    });
+                });
+            });
+        }
+
+        // Function to calculate the total score for each student
+        function calculateTotalScores() {
+            const rows = document.querySelectorAll('#scoresTable tbody tr');
+            rows.forEach(function(row) {
+                const cells = row.querySelectorAll('.editable');
+                let total = 0;
+
+                // Sum the values of all editable cells
+                cells.forEach(function(cell) {
+                    let value = parseFloat(cell.textContent.trim());
+                    if (!isNaN(value)) {
+                        total += value;
+                    }
+                });
+
+                // Update the total score for the student
+                row.querySelector('.totalScore').textContent = total.toFixed(2);
+            });
+
+            // After recalculating total scores, sort the rows in decreasing order of total score
+            sortRowsByTotalScore();
+        }
+
+        // Function to sort the rows by total score in decreasing order
+        function sortRowsByTotalScore() {
+            const rows = Array.from(document.querySelectorAll('#scoresTable tbody tr'));
+            
+            rows.sort(function(rowA, rowB) {
+                const totalA = parseFloat(rowA.querySelector('.totalScore').textContent.trim());
+                const totalB = parseFloat(rowB.querySelector('.totalScore').textContent.trim());
+                
+                return totalB - totalA; // Sort in descending order
+            });
+
+            // Append the sorted rows back to the table
+            const tbody = document.querySelector('#scoresTable tbody');
+            rows.forEach(function(row) {
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize the table when the page loads
+        window.addEventListener('load', function() {
+            fetchDataFromMultipleLinks(); // Fetch data from the 45 HTML links
+        });
+    </script>
+
+</body>
+</html>
