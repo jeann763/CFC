@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Button Customization</title>
+	<title>WOHLER</title>
 	<style>
 		/* Apply full-screen height and center content */
 		body, html {
@@ -84,13 +84,20 @@
 	</div>
 
 	<script>
-		// Function to redirect to the given URL
+		// The correct PIN
+		const correctPin = "1004";
+
+		// Function to confirm PIN and redirect
 		function confirmAction(url) {
-			if (url) {
+			// Ask for PIN before proceeding
+			const pin = prompt("Please enter the 4-digit PIN:");
+
+			if (pin === correctPin) {
+				// If the PIN is correct, redirect to the URL
 				window.location.href = url;
 			} else {
-				// Optionally, you can handle cases when no URL is passed, e.g., show an alert or log something
-				console.log("No URL provided");
+				// If the PIN is incorrect, show an alert
+				alert("Incorrect PIN, access not allowed.");
 			}
 		}
 	</script>
