@@ -198,11 +198,11 @@ function makeEditable() {
     });
 }
 
-// Function to calculate the average
+// Function to calculate the average and update the result in third table
 function calculateAverage() {
     let sum = 0;
     let count = 0;
-    
+
     // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
     let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
     
@@ -213,16 +213,17 @@ function calculateAverage() {
             sum += cellValue;
             count++;
         }
-	    
     });
-    
+
     // Calculate the average
     let average = (count > 0) ? sum / count : 0;
-    
-    // Display the result in the 'averageResult' span
-    document.getElementById('averageResult').textContent = average.toFixed(2);
-}
 
+    // Display the result in the 'averageResult' span of table 1
+    document.getElementById('averageResult').textContent = average.toFixed(2);
+
+    // Now, update the general average in third table (Gen. Ave. Rating)
+    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+}
 // Event listener for editing cells
 function makeEditable() {
     let editableCells = document.querySelectorAll('.editable');
