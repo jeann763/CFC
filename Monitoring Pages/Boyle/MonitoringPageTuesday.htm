@@ -205,7 +205,7 @@ function calculateAverage() {
 
     // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
     let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
-	
+    
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
         if (!isNaN(cellValue)) {
@@ -220,6 +220,82 @@ function calculateAverage() {
     // Update the 'Average' cell in the first table
     document.querySelector('#firstTable td#averageResult').textContent = average.toFixed(2);
 }
+
+// Add event listener to table to make cells editable
+document.querySelectorAll('.editable').forEach(cell => {
+    cell.addEventListener('click', function() {
+        let currentValue = this.innerText;
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentValue;
+
+        // Replace the cell content with the input field
+        this.innerHTML = '';
+        this.appendChild(input);
+
+        // Focus the input and select its content for easy editing
+        input.focus();
+        input.select();
+
+        // When the user clicks outside the input or presses Enter, save the changes
+        input.addEventListener('blur', saveEdit);
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                saveEdit();
+            }
+        });
+
+        function saveEdit() {
+            let newValue = input.value.trim();
+            // If the value changed, update the cell
+            if (newValue !== currentValue) {
+                cell.innerText = newValue || '';  // If the value is empty, leave it empty
+            } else {
+                cell.innerText = currentValue;
+            }
+
+            // After editing, recalculate the average
+            calculateAverage();
+
+            // Save the data after editing
+            saveData();
+
+            // Clean up the event listeners
+            input.removeEventListener('blur', saveEdit);
+            input.removeEventListener('keydown', saveEdit);
+        }
+    });
+});
+
+// Function to save data to localStorage
+function saveData() {
+    const cells = document.querySelectorAll('.editable');
+    const data = [];
+    cells.forEach((cell, index) => {
+        data[index] = cell.innerText;
+    });
+    localStorage.setItem('tableData', JSON.stringify(data));
+}
+
+// Function to load data from localStorage
+function loadData() {
+    const data = JSON.parse(localStorage.getItem('tableData'));
+    if (data) {
+        const cells = document.querySelectorAll('.editable');
+        cells.forEach((cell, index) => {
+            if (data[index]) {
+                cell.innerText = data[index];
+            }
+        });
+    }
+}
+
+// Load data when the page is loaded
+window.addEventListener('load', function() {
+    loadData();
+    calculateAverage(); // Calculate the initial average
+});
+
 
 // Load the "Confirm" button state on page load
 function loadConfirmState() {
