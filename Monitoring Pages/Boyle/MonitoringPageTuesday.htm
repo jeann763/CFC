@@ -172,92 +172,108 @@
 
 <script>
 	
-        // Pin validation logic
-        const correctPin = "1004"; // The 4-digit PIN
+// Function for confirm action and disabling the confirm button
+function confirmAction() {
+    // Disable the confirm button after confirmation
+    const confirmButton = document.getElementById('confirmButton');
+    confirmButton.textContent = 'Confirmed';
+    confirmButton.disabled = true; // Disable the button after confirmation
 
-        // Function to enable editing after PIN validation
-        function enableEditing() {
-            const editableCells = document.querySelectorAll('.editable');
-            editableCells.forEach(cell => {
-                cell.addEventListener('click', makeEditable);
+    // Disable all editable cells
+    disableEditing();
+
+    // Save the confirmed state to localStorage
+    localStorage.setItem('confirmed', 'true');
+
+    // You can perform other actions like navigating here
+    alert("Confirmation is complete.");
+}
+
+// Function to disable editing on all editable cells
+function disableEditing() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(cell => {
+        cell.removeEventListener('click', makeEditable); // Remove click event for editing
+        cell.classList.add('disabled'); // Optionally, you can style them as disabled (CSS)
+        cell.setAttribute('contenteditable', false); // Disables content editing on the cell
+    });
+}
+
+// Function to load the "Confirm" button state and disable editing on page load
+function loadConfirmState() {
+    const confirmed = localStorage.getItem('confirmed');
+    if (confirmed === 'true') {
+        const confirmButton = document.getElementById('confirmButton');
+        confirmButton.textContent = 'Confirmed';
+        confirmButton.disabled = true; // Disable the button after confirmation
+
+        // Disable editing on all editable cells
+        disableEditing();
+    }
+}
+
+// Function to enable editing after PIN validation
+function enableEditing() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(cell => {
+        cell.addEventListener('click', makeEditable);
+    });
+
+    // Change the text of the "Edit" button to "Editing"
+    document.getElementById('editButton').textContent = 'Editing';
+}
+
+// Function to prompt for PIN and enable editing if correct
+function promptForPin() {
+    const pin = prompt("Please enter the 4-digit PIN:");
+    
+    if (pin === correctPin) {
+        enableEditing();
+    } else {
+        alert("Incorrect PIN! Editing is not allowed.");
+    }
+}
+
+// Make table cells editable
+function makeEditable() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            const currentText = cell.textContent.trim();
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+
+            // Replace the cell content with an input box
+            cell.textContent = '';
+            cell.appendChild(input);
+
+            input.focus();
+
+            // When input is finished, update the cell content
+            input.addEventListener('blur', function() {
+                const newValue = input.value.trim();
+                cell.textContent = newValue || '';
             });
 
-            // Change the text of the "Edit" button to "Disable Editing"
-            document.getElementById('editButton').textContent = 'Disable Editing';
-        }
-
-        // Function to prompt for PIN and enable editing if correct
-        function promptForPin() {
-            const pin = prompt("Please enter the 4-digit PIN:");
-            
-            if (pin === correctPin) {
-                enableEditing();
-            } else {
-                alert("Incorrect PIN! Editing is not allowed.");
-            }
-        }
-
-        // Function to disable editing on all editable cells
-        function disableEditing() {
-            const editableCells = document.querySelectorAll('.editable');
-            editableCells.forEach(cell => {
-                cell.classList.add('disabled');
-                cell.removeEventListener('click', makeEditable); // Remove click event for editing
+            // Allow editing with 'Enter' key
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
             });
-
-            // Disable the confirm button after confirmation
-            const confirmButton = document.getElementById('confirmButton');
-            confirmButton.textContent = 'Confirmed';
-            confirmButton.disabled = true; // Disable the button after confirmation
-        }
-
-        // Function to make cells editable
-        function makeEditable() {
-            const editableCells = document.querySelectorAll('.editable');
-            
-            editableCells.forEach(function(cell) {
-                cell.addEventListener('click', function() {
-                    const currentText = cell.textContent.trim();
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.value = currentText;
-
-                    // Replace the cell content with an input box
-                    cell.textContent = '';
-                    cell.appendChild(input);
-
-                    input.focus();
-
-                    // When input is finished, update the cell content
-                    input.addEventListener('blur', function() {
-                        const newValue = input.value.trim();
-                        cell.textContent = newValue || '';
-                    });
-
-                    // Allow editing with 'Enter' key
-                    input.addEventListener('keydown', function(event) {
-                        if (event.key === 'Enter') {
-                            input.blur();
-                        }
-                    });
-                });
-            });
-        }
-
-        // Function for confirm action and disabling the confirm button
-        function confirmAction() {
-            // Disable the confirm button after confirmation
-            const confirmButton = document.getElementById('confirmButton');
-            confirmButton.textContent = 'Confirmed';
-            confirmButton.disabled = true; // Disable the button after confirmation
-
-            // You can perform other actions like navigating here
-            alert("Confirmation is complete.");
-        }
-
-        window.addEventListener('load', function() {
-            makeEditable(); // Make cells editable
         });
+    });
+}
+
+// Load the "Confirm" button state on page load
+window.addEventListener('load', function() {
+    makeEditable(); // Make cells editable
+    loadData(); // Load saved data (table edits)
+    loadConfirmState(); // Load the confirmation state
+    calculateAverage(); // Calculate the initial average
+});
+
 
 // Function to calculate the average from first table and update both tables
 function calculateAverage() {
@@ -331,9 +347,14 @@ function saveData() {
     const cells = document.querySelectorAll('.editable');
     const data = [];
     cells.forEach((cell, index) => {
-        data[index] = cell.innerText.trim();
+        data[index] = cell.innerHTML.trim();
     });
     localStorage.setItem('tableData', JSON.stringify(data));
+
+    // Save confirmation state
+    const confirmButton = document.getElementById('confirmButton');
+    const confirmed = confirmButton.disabled ? 'true' : 'false';
+    localStorage.setItem('confirmed', confirmed);
 }
 
 // Function to load data from localStorage
@@ -348,6 +369,7 @@ function loadData() {
         });
     }
 }
+
 
 // Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
