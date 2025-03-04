@@ -203,9 +203,9 @@ function calculateAverage() {
     let sum = 0;
     let count = 0;
 
-    // Select all editable cells in the first table that should be included in the average calculation
-    const editableCells = document.querySelectorAll('#firstTable .editable');
-    
+    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
+    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
+	
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
         if (!isNaN(cellValue)) {
