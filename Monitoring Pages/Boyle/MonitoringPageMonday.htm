@@ -20,7 +20,8 @@
 </head>
 <body>
 	
-	<button onclick="window.location.href='../Sub Pages/SUBPAGEboyle.html'">Back</button>
+	<button onclick="confirmAction('../Sub Pages/SUBPAGEboyle.html')">Back</button>
+
 
 <!-- First Table -->
 
@@ -181,6 +182,7 @@ function calculateAverage() {
             sum += cellValue;
             count++;
         }
+	    
     });
     
     // Calculate the average
@@ -257,6 +259,13 @@ window.addEventListener('load', function() {
     makeEditable();
     calculateAverage();
 });
+
+function confirmAction(url) {
+    if (confirm("Are you sure you want to go back?")) {
+        window.location.href = url;
+    }
+}
+
 </script>
 
 
