@@ -198,81 +198,72 @@ function makeEditable() {
     });
 }
 
-// Function to calculate the average from the first table and update both tables
+// Function to calculate the average
 function calculateAverage() {
     let sum = 0;
     let count = 0;
-
+    
     // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
     let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
     
+    // Loop through each editable cell and sum the values
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
         if (!isNaN(cellValue)) {
             sum += cellValue;
             count++;
         }
+	    
     });
-
+    
     // Calculate the average
-    const average = (count > 0) ? sum / count : 0;
-
-    // Update the 'Average' cell in the first table
-    document.querySelector('#firstTable td#averageResult').textContent = average.toFixed(2);
+    let average = (count > 0) ? sum / count : 0;
+    
+    // Display the result in the 'averageResult' span
+    document.getElementById('averageResult').textContent = average.toFixed(2);
 }
 
-// Add event listener to table to make cells editable
-document.querySelectorAll('.editable').forEach(cell => {
-    cell.addEventListener('click', function() {
-        let currentValue = this.innerText;
-        let input = document.createElement('input');
-        input.type = 'text';
-        input.value = currentValue;
+// Event listener for editing cells
+function makeEditable() {
+    let editableCells = document.querySelectorAll('.editable');
+    
+    editableCells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            let currentText = cell.textContent.trim();
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
 
-        // Replace the cell content with the input field
-        this.innerHTML = '';
-        this.appendChild(input);
+            // Replace the cell content with an input box
+            cell.textContent = '';
+            cell.appendChild(input);
 
-        // Focus the input and select its content for easy editing
-        input.focus();
-        input.select();
+            // Focus the input
+            input.focus();
 
-        // When the user clicks outside the input or presses Enter, save the changes
-        input.addEventListener('blur', saveEdit);
-        input.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                saveEdit();
-            }
+            // When input is finished, update the cell content and recalculate the average
+            input.addEventListener('blur', function() {
+                let newValue = input.value.trim();
+                cell.textContent = newValue || ''; // If blank, leave the cell empty
+                calculateAverage();
+            });
+
+            // Allow editing with 'Enter' key
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
+            });
         });
-
-        function saveEdit() {
-            let newValue = input.value.trim();
-            // If the value changed, update the cell
-            if (newValue !== currentValue) {
-                cell.innerText = newValue || '';  // If the value is empty, leave it empty
-            } else {
-                cell.innerText = currentValue;
-            }
-
-            // After editing, recalculate the average
-            calculateAverage();
-
-            // Save the data after editing
-            saveData();
-
-            // Clean up the event listeners
-            input.removeEventListener('blur', saveEdit);
-            input.removeEventListener('keydown', saveEdit);
-        }
     });
-});
+}
 
 // Function to save data to localStorage
 function saveData() {
     const cells = document.querySelectorAll('.editable');
     const data = [];
     cells.forEach((cell, index) => {
-        data[index] = cell.innerText;
+        data[index] = cell.innerText.trim();
     });
     localStorage.setItem('tableData', JSON.stringify(data));
 }
@@ -290,29 +281,21 @@ function loadData() {
     }
 }
 
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
 // Load data when the page is loaded
 window.addEventListener('load', function() {
     loadData();
-    calculateAverage(); // Calculate the initial average
+    makeEditable();
+    calculateAverage();
 });
 
-
-// Load the "Confirm" button state on page load
-function loadConfirmState() {
-    const confirmed = localStorage.getItem('confirmed');
-    if (confirmed === 'true') {
-        const confirmButton = document.getElementById('confirmButton');
-        confirmButton.textContent = 'Confirmed';
-        confirmButton.disabled = true; // Disable the button after confirmation
-        disableEditing(); // Disable editing on all editable cells
+function confirmAction(url) {
+    if (confirm("Are you sure you want to go back?")) {
+        window.location.href = url;
     }
 }
-
-// Load saved data when the page is loaded
-window.addEventListener('load', function() {
-    loadConfirmState(); // Load the confirmation state
-    calculateAverage(); // Calculate the initial average
-});
 </script>
 
 
