@@ -157,21 +157,21 @@
 				<td class="editable" data-include-average="true"></td>
 				<td class="editable" data-include-average="true"></td>
 				<td class="editable" data-include-average="true"></td>
-				<td>Average: <span id="averageResult">0</span></td>
+				<td id="averageResult">0</td>
+
 			</tr>
 		</tbody>
 	</table>
 
 <script>
-// Function to calculate the average
+// Function to calculate the average from first table and update both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
+
+    // Select all editable cells in the first table that should be included in the average calculation
+    let editableCells = document.querySelectorAll('#firstTable .editable[data-include-average="true"]');
     
-    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
-    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
-    
-    // Loop through each editable cell and sum the values
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
         if (!isNaN(cellValue)) {
@@ -179,15 +179,18 @@ function calculateAverage() {
             count++;
         }
     });
-    
+
     // Calculate the average
     let average = (count > 0) ? sum / count : 0;
-    
-    // Display the result in the 'averageResult' span
-    document.getElementById('averageResult').textContent = average.toFixed(2);
+
+    // Update the 'Average' cell in the first table
+    document.querySelector('#firstTable td#averageResult').textContent = average.toFixed(2);  // Assuming your 'Average' cell has id='averageResult'
+
+    // Also update the 'Gen. Ave. Rating' in the third table
+    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
 }
 
-// Event listener for editing cells
+// Event listener to make table cells editable and trigger recalculation
 function makeEditable() {
     let editableCells = document.querySelectorAll('.editable');
     
@@ -209,7 +212,7 @@ function makeEditable() {
             input.addEventListener('blur', function() {
                 let newValue = input.value.trim();
                 cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage();
+                calculateAverage(); // Recalculate the average after editing
             });
 
             // Allow editing with 'Enter' key
@@ -221,6 +224,12 @@ function makeEditable() {
         });
     });
 }
+
+// Initialize functionality when the page loads
+window.addEventListener('load', function() {
+    makeEditable(); // Make cells editable
+    calculateAverage(); // Calculate the initial average
+});
 
 // Function to save data to localStorage
 function saveData() {
