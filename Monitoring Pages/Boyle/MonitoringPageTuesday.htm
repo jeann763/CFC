@@ -171,21 +171,40 @@
 	</table>
 
 <script>
-	
-// Function for confirm action and disabling the confirm button
+// Function to prompt for PIN and enable editing if correct
+let correctPin = '1234'; // Example PIN
+function promptForPin() {
+    const pin = prompt("Please enter the 4-digit PIN:");
+    if (pin === correctPin) {
+        enableEditing();
+    } else {
+        alert("Incorrect PIN! Editing is not allowed.");
+    }
+}
+
+// Enable editing of cells
+function enableEditing() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(cell => {
+        cell.addEventListener('click', makeEditable);
+    });
+
+    // Change the text of the "Edit" button to "Disable Editing"
+    document.getElementById('editButton').textContent = 'Disable Editing';
+}
+
+// Function to disable editing after confirm action
 function confirmAction() {
     // Disable the confirm button after confirmation
     const confirmButton = document.getElementById('confirmButton');
     confirmButton.textContent = 'Confirmed';
-    confirmButton.disabled = true; // Disable the button after confirmation
+    confirmButton.disabled = true;
 
     // Disable all editable cells
     disableEditing();
 
     // Save the confirmed state to localStorage
     localStorage.setItem('confirmed', 'true');
-
-    // You can perform other actions like navigating here
     alert("Confirmation is complete.");
 }
 
@@ -199,89 +218,41 @@ function disableEditing() {
     });
 }
 
-// Function to load the "Confirm" button state and disable editing on page load
-function loadConfirmState() {
-    const confirmed = localStorage.getItem('confirmed');
-    if (confirmed === 'true') {
-        const confirmButton = document.getElementById('confirmButton');
-        confirmButton.textContent = 'Confirmed';
-        confirmButton.disabled = true; // Disable the button after confirmation
-
-        // Disable editing on all editable cells
-        disableEditing();
-    }
-}
-
-// Function to enable editing after PIN validation
-function enableEditing() {
-    const editableCells = document.querySelectorAll('.editable');
-    editableCells.forEach(cell => {
-        cell.addEventListener('click', makeEditable);
-    });
-
-    // Change the text of the "Edit" button to "Editing"
-    document.getElementById('editButton').textContent = 'Editing';
-}
-
-// Function to prompt for PIN and enable editing if correct
-function promptForPin() {
-    const pin = prompt("Please enter the 4-digit PIN:");
-    
-    if (pin === correctPin) {
-        enableEditing();
-    } else {
-        alert("Incorrect PIN! Editing is not allowed.");
-    }
-}
-
 // Make table cells editable
 function makeEditable() {
-    const editableCells = document.querySelectorAll('.editable');
-    editableCells.forEach(function(cell) {
-        cell.addEventListener('click', function() {
-            const currentText = cell.textContent.trim();
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentText;
+    const currentText = this.textContent.trim();
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
 
-            // Replace the cell content with an input box
-            cell.textContent = '';
-            cell.appendChild(input);
+    // Replace the cell content with an input box
+    this.textContent = '';
+    this.appendChild(input);
 
-            input.focus();
+    input.focus();
 
-            // When input is finished, update the cell content
-            input.addEventListener('blur', function() {
-                const newValue = input.value.trim();
-                cell.textContent = newValue || '';
-            });
+    // When input is finished, update the cell content
+    input.addEventListener('blur', function() {
+        const newValue = input.value.trim();
+        this.textContent = newValue || ''; // If blank, leave the cell empty
+        calculateAverage(); // Recalculate the average after editing
+    });
 
-            // Allow editing with 'Enter' key
-            input.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    input.blur();
-                }
-            });
-        });
+    // Allow editing with 'Enter' key
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            input.blur();
+        }
     });
 }
 
-// Load the "Confirm" button state on page load
-window.addEventListener('load', function() {
-    makeEditable(); // Make cells editable
-    loadData(); // Load saved data (table edits)
-    loadConfirmState(); // Load the confirmation state
-    calculateAverage(); // Calculate the initial average
-});
-
-
-// Function to calculate the average from first table and update both tables
+// Function to calculate the average from the first table and update both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
 
     // Select all editable cells in the first table that should be included in the average calculation
-    let editableCells = document.querySelectorAll('#firstTable .editable[data-include-average="true"]');
+    const editableCells = document.querySelectorAll('#firstTable .editable');
     
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
@@ -292,93 +263,27 @@ function calculateAverage() {
     });
 
     // Calculate the average
-    let average = (count > 0) ? sum / count : 0;
+    const average = (count > 0) ? sum / count : 0;
 
     // Update the 'Average' cell in the first table
-    document.querySelector('#firstTable td#averageResult').textContent = average.toFixed(2);  // Assuming your 'Average' cell has id='averageResult'
-
-    // Also update the 'Gen. Ave. Rating' in the third table
-    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+    document.querySelector('#firstTable td#averageResult').textContent = average.toFixed(2);
 }
 
-// Event listener to make table cells editable and trigger recalculation
-function makeEditable() {
-    let editableCells = document.querySelectorAll('.editable');
-    
-    editableCells.forEach(function(cell) {
-        cell.addEventListener('click', function() {
-            let currentText = cell.textContent.trim();
-            let input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentText;
-
-            // Replace the cell content with an input box
-            cell.textContent = '';
-            cell.appendChild(input);
-
-            // Focus the input
-            input.focus();
-
-            // When input is finished, update the cell content and recalculate the average
-            input.addEventListener('blur', function() {
-                let newValue = input.value.trim();
-                cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage(); // Recalculate the average after editing
-            });
-
-            // Allow editing with 'Enter' key
-            input.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    input.blur();
-                }
-            });
-        });
-    });
-}
-
-// Initialize functionality when the page loads
-window.addEventListener('load', function() {
-    makeEditable(); // Make cells editable
-    calculateAverage(); // Calculate the initial average
-});
-
-// Function to save data to localStorage
-function saveData() {
-    const cells = document.querySelectorAll('.editable');
-    const data = [];
-    cells.forEach((cell, index) => {
-        data[index] = cell.innerHTML.trim();
-    });
-    localStorage.setItem('tableData', JSON.stringify(data));
-
-    // Save confirmation state
-    const confirmButton = document.getElementById('confirmButton');
-    const confirmed = confirmButton.disabled ? 'true' : 'false';
-    localStorage.setItem('confirmed', confirmed);
-}
-
-// Function to load data from localStorage
-function loadData() {
-    const data = JSON.parse(localStorage.getItem('tableData'));
-    if (data) {
-        const cells = document.querySelectorAll('.editable');
-        cells.forEach((cell, index) => {
-            if (data[index]) {
-                cell.innerText = data[index];
-            }
-        });
+// Load the "Confirm" button state on page load
+function loadConfirmState() {
+    const confirmed = localStorage.getItem('confirmed');
+    if (confirmed === 'true') {
+        const confirmButton = document.getElementById('confirmButton');
+        confirmButton.textContent = 'Confirmed';
+        confirmButton.disabled = true; // Disable the button after confirmation
+        disableEditing(); // Disable editing on all editable cells
     }
 }
 
-
-// Save data when the user leaves the page
-window.addEventListener('beforeunload', saveData);
-
-// Load data when the page is loaded
+// Load saved data when the page is loaded
 window.addEventListener('load', function() {
-    loadData();
-    makeEditable();
-    calculateAverage();
+    loadConfirmState(); // Load the confirmation state
+    calculateAverage(); // Calculate the initial average
 });
 </script>
 
