@@ -169,65 +169,9 @@
 	</table>
 
 <script>
-
 // Make table cells editable
 function makeEditable() {
-    const currentText = this.textContent.trim();
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.value = currentText;
-
-    // Replace the cell content with an input box
-    this.textContent = '';
-    this.appendChild(input);
-
-    input.focus();
-
-    // When input is finished, update the cell content
-    input.addEventListener('blur', function() {
-        const newValue = input.value.trim();
-        this.textContent = newValue || ''; // If blank, leave the cell empty
-        calculateAverage(); // Recalculate the average after editing
-    });
-
-    // Allow editing with 'Enter' key
-    input.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            input.blur();
-        }
-    });
-}
-
-// Function to calculate the average and update the result in third table
-function calculateAverage() {
-    let sum = 0;
-    let count = 0;
-
-    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
-    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
-    
-    // Loop through each editable cell and sum the values
-    editableCells.forEach(function(cell) {
-        let cellValue = parseFloat(cell.textContent.trim());
-        if (!isNaN(cellValue)) {
-            sum += cellValue;
-            count++;
-        }
-    });
-
-    // Calculate the average
-    let average = (count > 0) ? sum / count : 0;
-
-    // Display the result in the 'averageResult' span of table 1
-    document.getElementById('averageResult').textContent = average.toFixed(2);
-
-    // Now, update the general average in third table (Gen. Ave. Rating)
-    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
-}
-// Event listener for editing cells
-function makeEditable() {
-    let editableCells = document.querySelectorAll('.editable');
-    
+    const editableCells = document.querySelectorAll('.editable');
     editableCells.forEach(function(cell) {
         cell.addEventListener('click', function() {
             let currentText = cell.textContent.trim();
@@ -246,7 +190,7 @@ function makeEditable() {
             input.addEventListener('blur', function() {
                 let newValue = input.value.trim();
                 cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage();
+                calculateAverage(); // Recalculate the average after editing
             });
 
             // Allow editing with 'Enter' key
@@ -259,7 +203,34 @@ function makeEditable() {
     });
 }
 
-// Function to save data to localStorage
+// Function to calculate the average and update the result in third table
+function calculateAverage() {
+    let sum = 0;
+    let count = 0;
+
+    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
+    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
+
+    // Loop through each editable cell and sum the values
+    editableCells.forEach(function(cell) {
+        let cellValue = parseFloat(cell.textContent.trim());
+        if (!isNaN(cellValue)) {
+            sum += cellValue;
+            count++;
+        }
+    });
+
+    // Calculate the average
+    let average = (count > 0) ? sum / count : 0;
+
+    // Display the result in the 'averageResult' span of table 1
+    document.getElementById('averageResult').textContent = average.toFixed(2);
+
+    // Now, update the general average in third table (Gen. Ave. Rating)
+    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+}
+
+// Save data when the user leaves the page
 function saveData() {
     const cells = document.querySelectorAll('.editable');
     const data = [];
@@ -269,7 +240,7 @@ function saveData() {
     localStorage.setItem('tableData', JSON.stringify(data));
 }
 
-// Function to load data from localStorage
+// Load data from localStorage
 function loadData() {
     const data = JSON.parse(localStorage.getItem('tableData'));
     if (data) {
@@ -282,16 +253,17 @@ function loadData() {
     }
 }
 
-// Save data when the user leaves the page
-window.addEventListener('beforeunload', saveData);
-
-// Load data when the page is loaded
+// Event listener for page load
 window.addEventListener('load', function() {
     loadData();
     makeEditable();
-    calculateAverage();
+    calculateAverage(); // Calculate average on page load
 });
 
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
+// Confirm action to go back
 function confirmAction(url) {
     if (confirm("Are you sure you want to go back?")) {
         window.location.href = url;
