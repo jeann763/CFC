@@ -19,6 +19,9 @@
 	</style>
 </head>
 <body>
+
+<button onclick="window.location.href='../../Sub Pages/SUBPAGEboyle.html'">Back</button>
+	
 <!-- First Table -->
 
 	<table id="firstTable">
@@ -149,6 +152,7 @@
 			</tr>
 			<tr>
 				<td>Cleanliness and Orderliness of the Classroom:</td>
+				<td></td>
 				<td class="editable" data-include-average="true"></td>
 				<td class="editable" data-include-average="true"></td>
 				<td class="editable" data-include-average="true"></td>
@@ -164,6 +168,12 @@
 	</table>
 
 <script>
+	function confirmAction(url) {
+    if (confirm("Are you sure you want to go back?")) {
+        window.location.href = url;
+    }
+}
+
 // Function to calculate the average from first table and update both tables
 function calculateAverage() {
     let sum = 0;
