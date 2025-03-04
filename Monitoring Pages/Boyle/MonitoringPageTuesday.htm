@@ -55,7 +55,7 @@
 				<td class="editable"> </td>
 				<td class="editable"> </td>
 				<td class="editable"> </td>
-				<td><button id="confirmButton" onclick="disableEditing()">Confirm</button>
+				<td><td><button id="confirmButton" onclick="promptForPin()">Confirm</button></td>
 </td>
 			</tr>
 			<tr>
@@ -199,12 +199,73 @@
     }
 	
     // Function to disable editing on all editable cells
+   const correctPin = "1004"; // The 4-digit PIN
+
+    // Function to enable editing after PIN validation
+    function enableEditing() {
+        const editableCells = document.querySelectorAll('.editable');
+        editableCells.forEach(cell => {
+            cell.addEventListener('click', makeEditable);
+        });
+        document.getElementById('editButton').textContent = 'Disable Editing';
+    }
+
+    // Function to prompt for PIN and enable editing if correct
+    function promptForPin() {
+        const pin = prompt("Please enter the 4-digit PIN:");
+        if (pin === correctPin) {
+            enableEditing();
+        } else {
+            alert("Incorrect PIN! Editing is not allowed.");
+        }
+    }
+
+    // Function to disable editing on all editable cells
     function disableEditing() {
         let editableCells = document.querySelectorAll('.editable');
         editableCells.forEach(function(cell) {
             cell.classList.add('disabled');
             cell.removeEventListener('click', makeEditable); // Remove click event for editing
         });
+        let confirmButton = document.getElementById('confirmButton');
+        confirmButton.textContent = 'Confirmed';
+        confirmButton.disabled = true; // Disable the button after confirmation
+    }
+
+    function makeEditable() {
+        let editableCells = document.querySelectorAll('.editable');
+        editableCells.forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                let currentText = cell.textContent.trim();
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.value = currentText;
+
+                // Replace the cell content with an input box
+                cell.textContent = '';
+                cell.appendChild(input);
+
+                input.focus();
+
+                // When input is finished, update the cell content
+                input.addEventListener('blur', function() {
+                    let newValue = input.value.trim();
+                    cell.textContent = newValue || '';
+                });
+
+                // Allow editing with 'Enter' key
+                input.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        input.blur();
+                    }
+                });
+            });
+        });
+    }
+
+    window.addEventListener('load', function() {
+        makeEditable(); // Make cells editable
+    });
 
         // Change the text of the "Confirm" button to "Confirmed"
         let confirmButton = document.getElementById('confirmButton');
