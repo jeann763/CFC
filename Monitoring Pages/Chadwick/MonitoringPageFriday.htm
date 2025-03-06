@@ -171,7 +171,7 @@
 <script>
 
 // Set a unique key for each page (e.g., based on the day or file)
-const pageKey = "mondayTableData"; // Change this to match the specific day/page
+const pageKey = "fridayTableDataC"; // Change this to match the specific day/page
 
 // Function to save data to localStorage for the specific page
 function saveData() {
@@ -204,8 +204,71 @@ window.addEventListener('load', function() {
     calculateAverage(); // Calculate average on page load
 });
 
-</script>
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
 
+// Make table cells editable
+function makeEditable() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            let currentText = cell.textContent.trim();
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+
+            // Replace the cell content with an input box
+            cell.textContent = '';
+            cell.appendChild(input);
+
+            // Focus the input
+            input.focus();
+
+            // When input is finished, update the cell content and recalculate the average
+            input.addEventListener('blur', function() {
+                let newValue = input.value.trim();
+                cell.textContent = newValue || ''; // If blank, leave the cell empty
+                calculateAverage(); // Recalculate the average after editing
+            });
+
+            // Allow editing with 'Enter' key
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
+            });
+        });
+    });
+}
+
+// Function to calculate the average and update the result in third table
+function calculateAverage() {
+    let sum = 0;
+    let count = 0;
+
+    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
+    let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
+
+    // Loop through each editable cell and sum the values
+    editableCells.forEach(function(cell) {
+        let cellValue = parseFloat(cell.textContent.trim());
+        if (!isNaN(cellValue)) {
+            sum += cellValue;
+            count++;
+        }
+    });
+
+    // Calculate the average
+    let average = (count > 0) ? sum / count : 0;
+
+    // Display the result in the 'averageResult' span of table 1
+    document.getElementById('averageResult').textContent = average.toFixed(2);
+
+    // Now, update the general average in third table (Gen. Ave. Rating)
+    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+}
+
+</script>
 
 
 <!-- Second Table -->
