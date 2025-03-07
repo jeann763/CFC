@@ -173,37 +173,6 @@
 // Set a unique key for each page (e.g., based on the day or file)
 const pageKey = "thursdayTableDataM"; // Change this to match the specific day/page
 
-function saveData() {
-    const cells = document.querySelectorAll('.editable');
-    const data = [];
-    cells.forEach((cell, index) => {
-        data[index] = cell.textContent.trim();  // Ensure textContent is used properly
-    });
-    localStorage.setItem(pageKey, JSON.stringify(data));
-    console.log("Data saved:", data); // Log data being saved
-}
-
-function loadData() {
-    const data = JSON.parse(localStorage.getItem(pageKey));
-    if (data) {
-        const cells = document.querySelectorAll('.editable');
-        cells.forEach((cell, index) => {
-            if (data[index]) {
-                cell.textContent = data[index];
-            }
-        });
-        console.log("Data loaded:", data); // Log data being loaded
-    }
-}
-
-
-// Event listener for page load
-window.addEventListener('load', function() {
-    loadData();
-    makeEditable();
-    calculateAverage(); // Calculate average on page load
-});
-
 // Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
 
