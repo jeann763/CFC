@@ -223,6 +223,68 @@ function makeEditable() {
 
             // Focus the input
             input.focus();
+// Set a unique key for each page (e.g., based on the day or file)
+const pageKey = "thursdayTableDataM"; // Change this to match the specific day/page
+
+function saveData() {
+    const cells = document.querySelectorAll('.editable');
+    const data = [];
+    cells.forEach((cell, index) => {
+        data[index] = cell.textContent.trim();  // Ensure textContent is used properly
+    });
+    localStorage.setItem(pageKey, JSON.stringify(data));
+    console.log("Data saved:", data); // Log data being saved
+}
+
+function loadData() {
+    const data = JSON.parse(localStorage.getItem(pageKey));
+    if (data) {
+        const cells = document.querySelectorAll('.editable');
+        cells.forEach((cell, index) => {
+            if (data[index]) {
+                cell.textContent = data[index];
+            }
+        });
+        console.log("Data loaded:", data); // Log data being loaded
+    }
+}
+
+
+// Event listener for page load
+window.addEventListener('load', function() {
+    loadData();
+    makeEditable();
+    calculateAverage(); // Calculate average on page load
+});
+
+window.addEventListener('beforeunload', function() {
+    saveData();
+    console.log("Data saved before unload.");
+});
+
+
+// Make table cells editable
+function makeEditable() {
+    const editableCells = document.querySelectorAll('.editable');
+    editableCells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            let currentText = cell.textContent.trim();
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+
+            // Replace the cell content with an input box
+            cell.textContent = '';
+            cell.appendChild(input);
+
+            // Focus the input
+            input.focus();
+
+		input.addEventListener('focusout', function() {
+    let newValue = input.value.trim();
+    cell.textContent = newValue || '';  // If blank, leave the cell empty
+    calculateAverage();  // Recalculate the average after editing
+});
 
             // When input is finished, update the cell content and recalculate the average
             input.addEventListener('blur', function() {
@@ -269,6 +331,24 @@ function calculateAverage() {
     if (thirdTableAvg) {
         thirdTableAvg.textContent = average.toFixed(2);
     }
+}
+
+
+            // When input is finished, update the cell content and recalculate the average
+            input.addEventListener('blur', function() {
+                let newValue = input.value.trim();
+                cell.textContent = newValue || ''; // If blank, leave the cell empty
+                calculateAverage(); // Recalculate the average after editing
+            });
+
+            // Allow editing with 'Enter' key
+            input.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    input.blur();
+                }
+            });
+        });
+    });
 }
 
 
