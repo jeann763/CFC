@@ -169,6 +169,44 @@
 	</table>
 
 <script>
+
+// Set a unique key for each page (e.g., based on the day or file)
+const pageKey = "tuesdayTableDataM"; // Change this to match the specific day/page
+
+// Function to save data to localStorage for the specific page
+function saveData() {
+    const cells = document.querySelectorAll('.editable');
+    const data = [];
+    cells.forEach((cell, index) => {
+        data[index] = cell.innerHTML;
+    });
+    // Save data with the unique key for this page
+    localStorage.setItem(pageKey, JSON.stringify(data));
+}
+
+// Function to load data from localStorage for the specific page
+function loadData() {
+    const data = JSON.parse(localStorage.getItem(pageKey));
+    if (data) {
+        const cells = document.querySelectorAll('.editable');
+        cells.forEach((cell, index) => {
+            if (data[index]) {
+                cell.innerText = data[index];
+            }
+        });
+    }
+}
+
+// Event listener for page load
+window.addEventListener('load', function() {
+    loadData();
+    makeEditable();
+    calculateAverage(); // Calculate average on page load
+});
+
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
 // Make table cells editable
 function makeEditable() {
     const editableCells = document.querySelectorAll('.editable');
@@ -230,45 +268,6 @@ function calculateAverage() {
     document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
 }
 
-// Save data when the user leaves the page
-function saveData() {
-    const cells = document.querySelectorAll('.editable');
-    const data = [];
-    cells.forEach((cell, index) => {
-        data[index] = cell.innerText.trim();
-    });
-    localStorage.setItem('tableData', JSON.stringify(data));
-}
-
-// Load data from localStorage
-function loadData() {
-    const data = JSON.parse(localStorage.getItem('tableData'));
-    if (data) {
-        const cells = document.querySelectorAll('.editable');
-        cells.forEach((cell, index) => {
-            if (data[index]) {
-                cell.innerText = data[index];
-            }
-        });
-    }
-}
-
-// Event listener for page load
-window.addEventListener('load', function() {
-    loadData();
-    makeEditable();
-    calculateAverage(); // Calculate average on page load
-});
-
-// Save data when the user leaves the page
-window.addEventListener('beforeunload', saveData);
-
-// Confirm action to go back
-function confirmAction(url) {
-    if (confirm("Are you sure you want to go back?")) {
-        window.location.href = url;
-    }
-}
 </script>
 
 
