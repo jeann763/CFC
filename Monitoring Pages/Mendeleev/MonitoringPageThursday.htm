@@ -177,10 +177,10 @@ function saveData() {
     const cells = document.querySelectorAll('.editable');
     const data = [];
     cells.forEach((cell, index) => {
-        data[index] = cell.textContent.trim();
+        data[index] = cell.textContent.trim();  // Ensure textContent is used properly
     });
     localStorage.setItem(pageKey, JSON.stringify(data));
-    console.log("Data saved:", data); // For debugging purposes
+    console.log("Data saved:", data); // Log data being saved
 }
 
 function loadData() {
@@ -192,7 +192,7 @@ function loadData() {
                 cell.textContent = data[index];
             }
         });
-        console.log("Data loaded:", data); // For debugging purposes
+        console.log("Data loaded:", data); // Log data being loaded
     }
 }
 
@@ -241,7 +241,7 @@ function makeEditable() {
     });
 }
 
-// Function to calculate the average and update the result in third table
+// Function to calculate the average and update the result in both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
@@ -265,8 +265,12 @@ function calculateAverage() {
     document.getElementById('averageResult').textContent = average.toFixed(2);
 
     // Now, update the general average in third table (Gen. Ave. Rating)
-    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+    const thirdTableAvg = document.querySelector('#thirdTable #averageResult');
+    if (thirdTableAvg) {
+        thirdTableAvg.textContent = average.toFixed(2);
+    }
 }
+
 
 </script>
 
