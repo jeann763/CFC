@@ -171,29 +171,33 @@
 <script>
 
 // Set a unique key for each page (e.g., based on the day or file)
-const pageKey = "mondayTableDataB"; // Change this to match the specific day/page
+const pageKey = "mondayboyle"; // Change this to match the specific day/page
 
-// Function to save data to localStorage for the specific page
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
 function saveData() {
     const cells = document.querySelectorAll('.editable');
     const data = [];
     cells.forEach((cell, index) => {
-        data[index] = cell.innerHTML;
+        data[index] = cell.textContent.trim();
     });
-    // Save data with the unique key for this page
+	
     localStorage.setItem(pageKey, JSON.stringify(data));
+	
+    console.log("Data saved:", data); // Log data being saved
 }
 
-// Function to load data from localStorage for the specific page
 function loadData() {
     const data = JSON.parse(localStorage.getItem(pageKey));
     if (data) {
         const cells = document.querySelectorAll('.editable');
         cells.forEach((cell, index) => {
             if (data[index]) {
-                cell.innerText = data[index];
+                cell.textContent = data[index];
             }
         });
+        console.log("Data loaded:", data); // Log data being loaded
     }
 }
 
@@ -203,11 +207,8 @@ window.addEventListener('load', function() {
     makeEditable();
     calculateAverage(); // Calculate average on page load
 });
-
-// Save data when the user leaves the page
-window.addEventListener('beforeunload', saveData);
-
-// Make table cells editable
+	
+// Manually trigger save when editing ends
 function makeEditable() {
     const editableCells = document.querySelectorAll('.editable');
     editableCells.forEach(function(cell) {
@@ -224,24 +225,23 @@ function makeEditable() {
             // Focus the input
             input.focus();
 
-            // When input is finished, update the cell content and recalculate the average
-            input.addEventListener('blur', function() {
+            input.addEventListener('focusout', function() {
                 let newValue = input.value.trim();
-                cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage(); // Recalculate the average after editing
+                cell.textContent = newValue || '';  // If blank, leave the cell empty
+                calculateAverage();  // Recalculate the average after editing
+                saveData();  // Save data immediately after editing
             });
 
-            // Allow editing with 'Enter' key
             input.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
-                    input.blur();
+                    input.blur(); // Trigger focusout manually on Enter key
                 }
             });
         });
     });
 }
 
-// Function to calculate the average and update the result in third table
+// Function to calculate the average and update the result in both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
@@ -265,11 +265,18 @@ function calculateAverage() {
     document.getElementById('averageResult').textContent = average.toFixed(2);
 
     // Now, update the general average in third table (Gen. Ave. Rating)
-    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
+    const thirdTableAvg = document.querySelector('#thirdTable #averageResult');
+    if (thirdTableAvg) {
+        thirdTableAvg.textContent = average.toFixed(2);
+    }
+}
+
+// Function for confirming action (you can define what it does)
+function confirmAction() {
+    alert("Confirmation action triggered!");
 }
 
 </script>
-
 
 
 <!-- Second Table -->
