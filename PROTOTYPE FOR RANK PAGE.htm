@@ -239,11 +239,11 @@
                     const doc = parser.parseFromString(html, 'text/html');
                     
                     // Select the 'averageResult' cell from the external HTML file
-                    const specificCell = doc.querySelector('#averageResult');
-                    
+                   const specificCell = doc.querySelector('#averageResult');
                     if (specificCell) {
-                        // Get the text content (the value inside <td id="averageResult">)
-                        const value = specificCell.textContent.trim(); // Or `specificCell.innerText.trim()` 
+                        const value = specificCell.innerText.trim(); // or specificCell.textContent.trim();
+                        document.querySelector(cellSelectors[index]).textContent = value;
+}
 
                         // Update the corresponding cell in the current table with the fetched value
                         document.querySelector(cellSelectors[index]).textContent = value;
