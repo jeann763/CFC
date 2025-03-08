@@ -173,8 +173,6 @@
 // Set a unique key for each page (e.g., based on the day or file)
 const pageKey = "thursdaymendeleev"; // Change this to match the specific day/page
 	
-
-	
 // Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
 
@@ -209,8 +207,6 @@ window.addEventListener('load', function() {
     makeEditable();
     calculateAverage(); // Calculate average on page load
 });
-
-
 	
 // Manually trigger save when editing ends
 function makeEditable() {
@@ -245,7 +241,6 @@ function makeEditable() {
     });
 }
 
-
 // Function to calculate the average and update the result in both tables
 function calculateAverage() {
     let sum = 0;
@@ -276,24 +271,10 @@ function calculateAverage() {
     }
 }
 
-
-            // When input is finished, update the cell content and recalculate the average
-            input.addEventListener('blur', function() {
-                let newValue = input.value.trim();
-                cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage(); // Recalculate the average after editing
-            });
-
-            // Allow editing with 'Enter' key
-            input.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    input.blur();
-                }
-            });
-        });
-    });
+// Function for confirming action (you can define what it does)
+function confirmAction() {
+    alert("Confirmation action triggered!");
 }
-
 
 </script>
 
