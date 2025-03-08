@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<button onclick="window.location.href='../../Sub Pages/SUBPAGEboyle.html'">Back</button>
+<button onclick="window.location.href='../../Sub Pages/SUBPAGEfranklin.html'">Back</button>
 	
 <!-- First Table -->
 
@@ -169,7 +169,46 @@
 	</table>
 
 <script>
-// Make table cells editable
+
+// Set a unique key for each page (e.g., based on the day or file)
+const pageKey = "fridayfranklin"; // Change this to match the specific day/page
+
+// Save data when the user leaves the page
+window.addEventListener('beforeunload', saveData);
+
+function saveData() {
+    const cells = document.querySelectorAll('.editable');
+    const data = [];
+    cells.forEach((cell, index) => {
+        data[index] = cell.textContent.trim();
+    });
+	
+    localStorage.setItem(pageKey, JSON.stringify(data));
+	
+    console.log("Data saved:", data); // Log data being saved
+}
+
+function loadData() {
+    const data = JSON.parse(localStorage.getItem(pageKey));
+    if (data) {
+        const cells = document.querySelectorAll('.editable');
+        cells.forEach((cell, index) => {
+            if (data[index]) {
+                cell.textContent = data[index];
+            }
+        });
+        console.log("Data loaded:", data); // Log data being loaded
+    }
+}
+
+// Event listener for page load
+window.addEventListener('load', function() {
+    loadData();
+    makeEditable();
+    calculateAverage(); // Calculate average on page load
+});
+	
+// Manually trigger save when editing ends
 function makeEditable() {
     const editableCells = document.querySelectorAll('.editable');
     editableCells.forEach(function(cell) {
@@ -186,24 +225,23 @@ function makeEditable() {
             // Focus the input
             input.focus();
 
-            // When input is finished, update the cell content and recalculate the average
-            input.addEventListener('blur', function() {
+            input.addEventListener('focusout', function() {
                 let newValue = input.value.trim();
-                cell.textContent = newValue || ''; // If blank, leave the cell empty
-                calculateAverage(); // Recalculate the average after editing
+                cell.textContent = newValue || '';  // If blank, leave the cell empty
+                calculateAverage();  // Recalculate the average after editing
+                saveData();  // Save data immediately after editing
             });
 
-            // Allow editing with 'Enter' key
             input.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
-                    input.blur();
+                    input.blur(); // Trigger focusout manually on Enter key
                 }
             });
         });
     });
 }
 
-// Function to calculate the average and update the result in third table
+// Function to calculate the average and update the result in both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
@@ -227,48 +265,17 @@ function calculateAverage() {
     document.getElementById('averageResult').textContent = average.toFixed(2);
 
     // Now, update the general average in third table (Gen. Ave. Rating)
-    document.querySelector('#thirdTable #averageResult').textContent = average.toFixed(2);
-}
-
-// Save data when the user leaves the page
-function saveData() {
-    const cells = document.querySelectorAll('.editable');
-    const data = [];
-    cells.forEach((cell, index) => {
-        data[index] = cell.innerText.trim();
-    });
-    localStorage.setItem('tableData', JSON.stringify(data));
-}
-
-// Load data from localStorage
-function loadData() {
-    const data = JSON.parse(localStorage.getItem('tableData'));
-    if (data) {
-        const cells = document.querySelectorAll('.editable');
-        cells.forEach((cell, index) => {
-            if (data[index]) {
-                cell.innerText = data[index];
-            }
-        });
+    const thirdTableAvg = document.querySelector('#thirdTable #averageResult');
+    if (thirdTableAvg) {
+        thirdTableAvg.textContent = average.toFixed(2);
     }
 }
 
-// Event listener for page load
-window.addEventListener('load', function() {
-    loadData();
-    makeEditable();
-    calculateAverage(); // Calculate average on page load
-});
-
-// Save data when the user leaves the page
-window.addEventListener('beforeunload', saveData);
-
-// Confirm action to go back
-function confirmAction(url) {
-    if (confirm("Are you sure you want to go back?")) {
-        window.location.href = url;
-    }
+// Function for confirming action (you can define what it does)
+function confirmAction() {
+    alert("Confirmation action triggered!");
 }
+
 </script>
 
 
@@ -377,75 +384,5 @@ function confirmAction(url) {
 				<td class="editable">- </td>
 		</tbody>
 	</table>
-
-	<script>
-// Function to save data to localStorage
-        function saveData() {
-            const cells = document.querySelectorAll('.editable');
-            const data = [];
-            cells.forEach((cell, index) => {
-                data[index] = cell.innerHTML;
-            });
-            localStorage.setItem('tableData', JSON.stringify(data));
-        }
-
-        // Function to load data from localStorage
-        function loadData() {
-            const data = JSON.parse(localStorage.getItem('tableData'));
-            if (data) {
-                const cells = document.querySelectorAll('.editable');
-                cells.forEach((cell, index) => {
-                    if (data[index]) {
-                        cell.innerText = data[index];
-                    }
-                });
-            }
-        }
-		// Add event listener to table to make cells editable
-		document.querySelectorAll('.editable').forEach(cell => {
-			cell.addEventListener('click', function() {
-			// Create an input field to edit the content of the cell
-			let currentValue = this.innerText;
-			let input = document.createElement('input');
-			input.type = 'text';
-			input.value = currentValue;
-                
-			// Replace the cell content with the input field
-			this.innerHTML = '';
-			this.appendChild(input);
-
-			// Focus the input and select its content for easy editing
-			input.focus();
-			input.select();
-
-			// When the user clicks outside the input or presses Enter, save the changes
-			input.addEventListener('blur', saveEdit);
-			input.addEventListener('keydown', function(event) {
-				if (event.key === 'Enter') {
-					saveEdit();
-				}
-			});
-
-			function saveEdit() {
-				// Save the new value back to the cell
-                    let newValue = input.value;
-                    if (newValue !== currentValue) {
-                        cell.innerText = newValue;
-                    } else {
-                        cell.innerText = currentValue;
-                    }
-// Save the data after editing
-                    saveData();
-
-                    // Clean up the event listeners
-                    input.removeEventListener('blur', saveEdit);
-                    input.removeEventListener('keydown', saveEdit);
-
-                }
-            });
-        });
-// Load data when the page is loaded
-window.addEventListener('load', loadData);
-    </script>
 </body>
 </html>
