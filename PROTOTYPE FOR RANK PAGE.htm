@@ -45,7 +45,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Chadwick">
                 <td>Chadwick</td>
@@ -54,7 +54,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Dalton">
                 <td>Dalton</td>
@@ -63,7 +63,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Fischer">
                 <td>Fischer</td>
@@ -72,7 +72,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Franklin">
                 <td>Franklin</td>
@@ -81,7 +81,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Mendeleev">
                 <td>Mendeleev</td>
@@ -90,7 +90,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
             <tr id="Wohler">
                 <td>Wohler</td>
@@ -99,7 +99,7 @@
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
                 <td class="editable" contenteditable="true"></td>
-                <td id="Result">0</td>
+                <td class="result">0</td>
             </tr>
         </tbody>
     </table>
@@ -152,7 +152,7 @@
         });
 
         // Calculate and set the average in the 'Result' cell
-        const resultCell = row.querySelector('#Result');
+        const resultCell = row.querySelector('.result');
         const average = count > 0 ? (sum / count).toFixed(2) : 0; // Prevent division by zero
         resultCell.textContent = average;
     }
@@ -161,8 +161,8 @@
     function sortRows() {
         const rows = Array.from(document.querySelectorAll('tbody tr'));
         rows.sort((rowA, rowB) => {
-            const avgA = parseFloat(rowA.querySelector('#Result').textContent);
-            const avgB = parseFloat(rowB.querySelector('#Result').textContent);
+            const avgA = parseFloat(rowA.querySelector('.result').textContent);
+            const avgB = parseFloat(rowB.querySelector('.result').textContent);
             return avgB - avgA; // Sort in descending order
         });
 
