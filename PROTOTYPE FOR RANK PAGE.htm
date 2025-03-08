@@ -185,6 +185,28 @@
     
 
     <script>
+        // Function to get the value from the 'averageResult' cell
+function getAverageResultValue() {
+    // Get the 'averageResult' cell in the first table
+    const averageResultCell = document.querySelector('#firstTable #averageResult');
+
+    // Check if the cell exists and then get its text content
+    if (averageResultCell) {
+        const averageValue = averageResultCell.textContent.trim();
+        console.log('Average Result Value:', averageValue);
+        return averageValue;
+    } else {
+        console.log('Average result cell not found');
+        return null;
+    }
+}
+
+// Call the function when the page loads
+window.addEventListener('load', function() {
+    const value = getAverageResultValue();
+    // Do something with the value, if needed
+});
+
         // Function to fetch data from multiple HTML files and select specific cells
         function fetchDataFromOtherHTML() {
             // Array of URLs for the external HTML files
@@ -227,50 +249,7 @@
             ];
 
             // Array of cell selectors for the specific cells you want to fetch
-            const selectors = [
-               'table#boyle tr:nth-child(10) td:nth-child(10)',  
-                'table#boyle tr:nth-child(10) td:nth-child(10)', 
-                'table#boyle tr:nth-child(10) td:nth-child(10)',  
-                'table#boyle tr:nth-child(10) td:nth-child(10)',  
-                'table#boyle tr:nth-child(10) td:nth-child(10)', 
-                
-               'table#chadwick tr:nth-child(10) td:nth-child(10)',  
-                'table#chadwick tr:nth-child(10) td:nth-child(10)', 
-                'table#chadwick tr:nth-child(10) td:nth-child(10)',  
-                'table#chadwick tr:nth-child(10) td:nth-child(10)',  
-                'table#chadwick tr:nth-child(10) td:nth-child(10)', 
-                
-               'table#dalton tr:nth-child(10) td:nth-child(10)',  
-                'table#dalton tr:nth-child(10) td:nth-child(10)', 
-                'table#dalton tr:nth-child(10) td:nth-child(10)',  
-                'table#dalton tr:nth-child(10) td:nth-child(10)',  
-                'table#dalton tr:nth-child(10) td:nth-child(10)', 
-                
-               'table#fischer tr:nth-child(10) td:nth-child(10)',  
-                'table#fischer tr:nth-child(10) td:nth-child(10)', 
-                'table#fischer tr:nth-child(10) td:nth-child(10)',  
-                'table#fischer tr:nth-child(10) td:nth-child(10)',  
-                'table#fischer tr:nth-child(10) td:nth-child(10)', 
-                
-                'table#franklin tr:nth-child(10) td:nth-child(10)',  
-                'table#franklin tr:nth-child(10) td:nth-child(10)', 
-                'table#franklin tr:nth-child(10) td:nth-child(10)',  
-                'table#franklin tr:nth-child(10) td:nth-child(10)',  
-                'table#franklin tr:nth-child(10) td:nth-child(10)', 
-                
-                'table#mendeleev tr:nth-child(10) td:nth-child(10)',  
-                'table#mendeleev tr:nth-child(10) td:nth-child(10)', 
-                'table#mendeleev tr:nth-child(10) td:nth-child(10)',  
-                'table#mendeleev tr:nth-child(10) td:nth-child(10)',  
-                'table#mendeleev tr:nth-child(10) td:nth-child(10)', 
-                
-                'table#wohler tr:nth-child(10) td:nth-child(10)', 
-                'table#wohler tr:nth-child(10) td:nth-child(10)',
-                'table#wohler tr:nth-child(10) td:nth-child(10)', 
-                'table#wohler tr:nth-child(10) td:nth-child(10)', 
-                'table#wohler tr:nth-child(10) td:nth-child(10)', 
-                
-            ];
+            const selector = 'table#firstTable tr:nth-child(10) td:nth-child(10)';
 
             // Iterate over the external HTML files
                        urls.forEach((url, index) => {
