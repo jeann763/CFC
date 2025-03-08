@@ -239,11 +239,21 @@
                     const doc = parser.parseFromString(html, 'text/html');
                     
                     // Select the 'averageResult' cell from the external HTML file
-                   const specificCell = doc.querySelector('#averageResult');
+                    const specificCell = doc.querySelector('#averageResult');
                     if (specificCell) {
-                        const value = specificCell.innerText.trim(); // or specificCell.textContent.trim();
-                        document.querySelector(cellSelectors[index]).textContent = value;
-}
+                        // Fetch the current value of the cell, not its initial value
+                        let value;
+                        
+                        // Check if the specific cell is contenteditable (editable)
+                        const editableCell = document.querySelector(cellSelectors[index]);
+                        
+                        if (editableCell && editableCell.isContentEditable) {
+                            value = editableCell.innerText.trim(); // for contenteditable cells
+                        } else if (editableCell && (editableCell.tagName === 'INPUT' || editableCell.tagName === 'TEXTAREA')) {
+                            value = editableCell.value.trim(); // for <input> or <textarea> fields
+                        } else {
+                            value = specificCell.textContent.trim(); // fallback if the cell is not editable
+                        }
 
                         // Update the corresponding cell in the current table with the fetched value
                         document.querySelector(cellSelectors[index]).textContent = value;
