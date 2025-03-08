@@ -206,6 +206,8 @@ window.addEventListener('load', function() {
     calculateAverage(); // Calculate average on page load
 });
 
+localStorage.setItem(pageKey, JSON.stringify(data));
+	
 // Manually trigger save when editing ends
 function makeEditable() {
     const editableCells = document.querySelectorAll('.editable');
