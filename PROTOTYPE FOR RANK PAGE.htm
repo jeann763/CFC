@@ -13,53 +13,254 @@
             text-align: left;
         }
     </style>
-    <title>Fetch Specific Cells from 5 HTML Files</title>
+    <title>Rankings</title>
 </head>
 <body>
-    <h2>Data from 5 Different HTML Files</h2>
+    <h2>Rankings</h2>
 
     <table>
         <thead>
             <tr>
-                <th>Section</th>
-                <th>Score 1</th>
-                <th>Score 2</th>
-                <th>Score 3</th>
-                <th>Score 4</th>
-                <th>Score 5</th>
+                <th>Boyle</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Example Section</td>
-                <td id="score1">Loading...</td>
-                <td id="score2">Loading...</td>
-                <td id="score3">Loading...</td>
-                <td id="score4">Loading...</td>
-                <td id="score5">Loading...</td>
+                <td></td>
+                <td id="boyle1">Loading...</td>
+                <td id="boyle2">Loading...</td>
+                <td id="boyle3">Loading...</td>
+                <td id="boyle4">Loading...</td>
+                <td id="boyle5">Loading...</td>
             </tr>
         </tbody>
     </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Chadwick</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="chadwick1">Loading...</td>
+                <td id="chadwick2">Loading...</td>
+                <td id="chadwick3">Loading...</td>
+                <td id="chadwick4">Loading...</td>
+                <td id="chadwick5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <table>
+        <thead>
+            <tr>
+                <th>Dalton</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="dalton1">Loading...</td>
+                <td id="dalton2">Loading...</td>
+                <td id="dalton3">Loading...</td>
+                <td id="dalton4">Loading...</td>
+                <td id="dalton5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+            <table>
+        <thead>
+            <tr>
+                <th>Fischer</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="fischer1">Loading...</td>
+                <td id="fischer2">Loading...</td>
+                <td id="fischer3">Loading...</td>
+                <td id="fischer4">Loading...</td>
+                <td id="fischer5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+            <table>
+        <thead>
+            <tr>
+                <th>Franklin</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="franklin1">Loading...</td>
+                <td id="franklin2">Loading...</td>
+                <td id="franklin3">Loading...</td>
+                <td id="franklin4">Loading...</td>
+                <td id="franklin5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+            <table>
+        <thead>
+            <tr>
+                <th>Mendeleev</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="mendeleev1">Loading...</td>
+                <td id="mendeleev2">Loading...</td>
+                <td id="mendeleev3">Loading...</td>
+                <td id="mendeleev4">Loading...</td>
+                <td id="mendeleev5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+            <table>
+        <thead>
+            <tr>
+                <th>Wohler</th>
+                <th>Monday</th></th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td id="wohler1">Loading...</td>
+                <td id="wohler2">Loading...</td>
+                <td id="wohler3">Loading...</td>
+                <td id="wohler4">Loading...</td>
+                <td id="wohler5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
 
     <script>
         // Function to fetch data from multiple HTML files and select specific cells
         function fetchDataFromOtherHTML() {
             // Array of URLs for the external HTML files
             const urls = [
-                'Monitoring Pages/Boyle/MonitoringPageMonday.htm', // First external HTML file
-                'Monitoring Pages/Boyle/MonitoringPageTuesday.htm', // Second external HTML file
-                'Monitoring Pages/Boyle/MonitoringPageWednesday.htm', // Third external HTML file
-                'Monitoring Pages/Boyle/MonitoringPageThursday.htm', // Fourth external HTML file
-                'Monitoring Pages/Boyle/MonitoringPageFriday.htm'  // Fifth external HTML file
+                'Monitoring Pages/Boyle/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Boyle/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Boyle/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Boyle/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Boyle/MonitoringPageFriday.htm',
+                'Monitoring Pages/Chadwick/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Chadwick/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Chadwick/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Chadwick/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Chadwick/MonitoringPageFriday.htm',
+                'Monitoring Pages/Dalton/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Dalton/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Dalton/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Dalton/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Dalton/MonitoringPageFriday.htm',
+                'Monitoring Pages/Fischer/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Fischer/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Fischer/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Fischer/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Fischer/MonitoringPageFriday.htm',
+                'Monitoring Pages/Franklin/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Franklin/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Franklin/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Franklin/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Franklin/MonitoringPageFriday.htm',
+                'Monitoring Pages/Mendeleev/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Mendeleev/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Mendeleev/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Mendeleev/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Mendeleev/MonitoringPageFriday.htm',
+                'Monitoring Pages/Wohler/MonitoringPageMonday.htm',  
+                'Monitoring Pages/Wohler/MonitoringPageTuesday.htm', 
+                'Monitoring Pages/Wohler/MonitoringPageWednesday.htm', 
+                'Monitoring Pages/Wohler/MonitoringPageThursday.htm', 
+                'Monitoring Pages/Wohler/MonitoringPageFriday.htm',
             ];
 
             // Array of cell selectors for the specific cells you want to fetch
             const selectors = [
-                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', // Cell from table1.html
-                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', // Cell from table2.html
-                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', // Cell from table3.html
-                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', // Cell from table4.html
-                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', // Cell from table5.html
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                'table:nth-of-type(1) tr:nth-child(10) td:nth-child(10)', 
+                
             ];
 
             // Iterate over the external HTML files
