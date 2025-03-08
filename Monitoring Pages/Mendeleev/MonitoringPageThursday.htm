@@ -172,7 +172,9 @@
 
 // Set a unique key for each page (e.g., based on the day or file)
 const pageKey = "thursdaymendeleev"; // Change this to match the specific day/page
-
+	
+localStorage.setItem(pageKey, JSON.stringify(data));
+	
 // Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
 
@@ -206,7 +208,7 @@ window.addEventListener('load', function() {
     calculateAverage(); // Calculate average on page load
 });
 
-localStorage.setItem(pageKey, JSON.stringify(data));
+
 	
 // Manually trigger save when editing ends
 function makeEditable() {
