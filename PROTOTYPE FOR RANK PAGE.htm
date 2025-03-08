@@ -241,24 +241,13 @@
                     // Select the 'averageResult' cell from the external HTML file
                     const specificCell = doc.querySelector('#averageResult');
                     if (specificCell) {
-                        // Fetch the current value of the cell, not its initial value
-                        let value;
+                        // Fetch the updated value of the non-editable cell (averageResult)
+                        const currentValue = document.querySelector('#averageResult').textContent.trim();
                         
-                        // Check if the specific cell is contenteditable (editable)
-                        const editableCell = document.querySelector(cellSelectors[index]);
-                        
-                        if (editableCell && editableCell.isContentEditable) {
-                            value = editableCell.innerText.trim(); // for contenteditable cells
-                        } else if (editableCell && (editableCell.tagName === 'INPUT' || editableCell.tagName === 'TEXTAREA')) {
-                            value = editableCell.value.trim(); // for <input> or <textarea> fields
-                        } else {
-                            value = specificCell.textContent.trim(); // fallback if the cell is not editable
-                        }
-
-                        // Update the corresponding cell in the current table with the fetched value
-                        document.querySelector(cellSelectors[index]).textContent = value;
+                        // Display the current value (or perform any other action with it)
+                        console.log('Current value of averageResult:', currentValue);
                     } else {
-                        console.error('Cell not found at index ' + index);
+                        console.error('Cell not found');
                     }
                 })
                 .catch(error => {
@@ -269,6 +258,18 @@
 
     // Fetch the data when the page loads
     window.addEventListener('load', fetchDataFromOtherHTML);
+
+    // Optional: Set up a function to dynamically retrieve the updated value
+    function getCurrentAverageResult() {
+        const averageResult = document.querySelector('#averageResult').textContent.trim();
+        console.log('Current Average Result:', averageResult);
+        return averageResult;
+    }
+
+    // Example: Fetch the current value after some table updates
+    setTimeout(() => {
+        getCurrentAverageResult(); // Fetch current value after some changes
+    }, 2000); // This can be adjusted based on when you want to trigger the fetch (e.g., after data changes)
 </script>
 </body>
 </html>
