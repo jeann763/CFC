@@ -120,6 +120,7 @@
                 });
                 calculateAverage(row);  // Recalculate the average based on saved data
             });
+            sortRows();  // Sort rows by average value on page load
         }
     }
 
@@ -156,6 +157,20 @@
         resultCell.textContent = average;
     }
 
+    // Sort the rows in descending order based on the average values
+    function sortRows() {
+        const rows = Array.from(document.querySelectorAll('tbody tr'));
+        rows.sort((rowA, rowB) => {
+            const avgA = parseFloat(rowA.querySelector('#Result').textContent);
+            const avgB = parseFloat(rowB.querySelector('#Result').textContent);
+            return avgB - avgA; // Sort in descending order
+        });
+
+        // Re-append rows in sorted order
+        const tbody = document.querySelector('tbody');
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
     // Add event listeners to editable cells
     document.querySelectorAll('.editable').forEach(cell => {
         // Event listener for when the user clicks away from the cell (blur event)
@@ -163,6 +178,7 @@
             const row = this.closest('tr');
             calculateAverage(row); // Recalculate the average when the cell loses focus
             saveData(); // Save data after input change
+            sortRows(); // Sort the rows after the data change
         });
 
         // Event listener for when the user presses the Enter key
@@ -171,6 +187,7 @@
                 const row = this.closest('tr');
                 calculateAverage(row); // Recalculate the average when Enter is pressed
                 saveData(); // Save data after pressing Enter
+                sortRows(); // Sort the rows after the data change
             }
         });
     });
