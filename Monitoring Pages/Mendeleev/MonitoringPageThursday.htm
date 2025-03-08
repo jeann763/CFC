@@ -173,7 +173,7 @@
 // Set a unique key for each page (e.g., based on the day or file)
 const pageKey = "thursdaymendeleev"; // Change this to match the specific day/page
 	
-localStorage.setItem(pageKey, JSON.stringify(data));
+
 	
 // Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
@@ -184,7 +184,9 @@ function saveData() {
     cells.forEach((cell, index) => {
         data[index] = cell.textContent.trim();
     });
+	
     localStorage.setItem(pageKey, JSON.stringify(data));
+	
     console.log("Data saved:", data); // Log data being saved
 }
 
