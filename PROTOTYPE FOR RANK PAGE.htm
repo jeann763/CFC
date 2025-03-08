@@ -40,91 +40,74 @@
         <tbody>
             <tr id="Boyle">
                 <td>Boyle</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Chadwick">
                 <td>Chadwick</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Dalton">
                 <td>Dalton</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Fischer">
                 <td>Fischer</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Franklin">
                 <td>Franklin</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Mendeleev">
                 <td>Mendeleev</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
             <tr id="Wohler">
                 <td>Wohler</td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
-                <td class="editable"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
         </tbody>
     </table>
 
 <script>
-    // Set a unique key for each page (e.g., based on the day or file)
-    const pageKey = "rankingsPage"; // Change this to match the specific page
-
-    // Save data when the user leaves the page
-    window.addEventListener('beforeunload', saveData);
-
-    function saveData() {
-        const tableData = {};
-        document.querySelectorAll('tbody tr').forEach(row => {
-            const rowId = row.id;
-            const editableCells = row.querySelectorAll('.editable');
-            const rowValues = Array.from(editableCells).map(cell => parseFloat(cell.textContent) || 0);
-            tableData[rowId] = rowValues;
-        });
-        localStorage.setItem(pageKey, JSON.stringify(tableData));
-        console.log("Data saved:", tableData); // Log data being saved
-    }
-
+    // Load data from localStorage and populate the table
     function loadData() {
-        const savedData = JSON.parse(localStorage.getItem(pageKey));
+        const savedData = JSON.parse(localStorage.getItem('tableData'));
         if (savedData) {
             Object.keys(savedData).forEach(rowId => {
                 const rowData = savedData[rowId];
@@ -137,12 +120,25 @@
                 });
                 calculateAverage(row);  // Recalculate the average based on saved data
             });
+            sortRows();  // Sort rows by average value on page load
         }
     }
 
-    // Function to calculate the average of the row and update the "Result" cell
+    // Save data to localStorage
+    function saveData() {
+        const tableData = {};
+        document.querySelectorAll('tbody tr').forEach(row => {
+            const rowId = row.id;
+            const editableCells = row.querySelectorAll('.editable');
+            const rowValues = Array.from(editableCells).map(cell => parseFloat(cell.textContent) || 0);
+            tableData[rowId] = rowValues;
+        });
+        localStorage.setItem('tableData', JSON.stringify(tableData));
+    }
+
+    // Function to calculate average of the row
     function calculateAverage(row) {
-        const cells = row.querySelectorAll('td.editable');
+        const cells = row.querySelectorAll('td.editable'); // Select the editable cells
         let sum = 0;
         let count = 0;
 
@@ -161,45 +157,44 @@
         resultCell.textContent = average;
     }
 
-    // Add click event to make cells editable
+    // Sort the rows in descending order based on the average values
+    function sortRows() {
+        const rows = Array.from(document.querySelectorAll('tbody tr'));
+        rows.sort((rowA, rowB) => {
+            const avgA = parseFloat(rowA.querySelector('#Result').textContent);
+            const avgB = parseFloat(rowB.querySelector('#Result').textContent);
+            return avgB - avgA; // Sort in descending order
+        });
+
+        // Re-append rows in sorted order
+        const tbody = document.querySelector('tbody');
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
+    // Add event listeners to editable cells
     document.querySelectorAll('.editable').forEach(cell => {
-        cell.addEventListener('click', function() {
-            let currentText = cell.textContent.trim();
-            let input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentText;
+        // Event listener for when the user clicks away from the cell (blur event)
+        cell.addEventListener('blur', function() {
+            const row = this.closest('tr');
+            calculateAverage(row); // Recalculate the average when the cell loses focus
+            saveData(); // Save data after input change
+            sortRows(); // Sort the rows after the data change
+        });
 
-            // Replace the cell content with an input box
-            cell.textContent = '';
-            cell.appendChild(input);
-
-            // Focus the input field
-            input.focus();
-
-            // When input loses focus, save the new value and calculate average
-            input.addEventListener('focusout', function() {
-                let newValue = input.value.trim();
-                cell.textContent = newValue || '';  // If blank, leave the cell empty
-                const row = cell.closest('tr');
-                calculateAverage(row);  // Recalculate the average
-                saveData();  // Save data immediately after editing
-            });
-
-            // Trigger focusout on Enter key press
-            input.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    input.blur(); // Trigger focusout manually on Enter key
-                }
-            });
+        // Event listener for when the user presses the Enter key
+        cell.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                const row = this.closest('tr');
+                calculateAverage(row); // Recalculate the average when Enter is pressed
+                saveData(); // Save data after pressing Enter
+                sortRows(); // Sort the rows after the data change
+            }
         });
     });
 
-    // Initial data load from localStorage on page load
-    window.addEventListener('load', function() {
-        loadData();
-    });
+    // Initial data load from localStorage
+    window.onload = loadData;
 </script>
 
-    
 </body>
 </html>
