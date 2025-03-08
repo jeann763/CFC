@@ -14,6 +14,7 @@
         }
         .editable {
             background-color: #f9f9f9;
+            cursor: pointer; /* Makes it clear that these cells are editable */
         }
     </style>
     <title>Rankings</title>
@@ -37,72 +38,71 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr id="Boyle">
                 <td>Boyle</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Chadwick">
                 <td>Chadwick</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Dalton">
                 <td>Dalton</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Fischer">
                 <td>Fischer</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Franklin">
                 <td>Franklin</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Mendeleev">
                 <td>Mendeleev</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
-            <tr>
+            <tr id="Wohler">
                 <td>Wohler</td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
-                <td class="editable"><input type="number" class="input-cell" value=""></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
+                <td class="editable" contenteditable="true"></td>
                 <td id="Result">0</td>
             </tr>
         </tbody>
     </table>
-
 
 <script>
     // Load data from localStorage and populate the table
@@ -113,9 +113,9 @@
                 const rowData = savedData[rowId];
                 const row = document.getElementById(rowId);
                 rowData.forEach((value, index) => {
-                    const inputCell = row.querySelectorAll('.input-cell')[index];
-                    if (inputCell) {
-                        inputCell.value = value;
+                    const editableCell = row.querySelectorAll('.editable')[index];
+                    if (editableCell) {
+                        editableCell.textContent = value;
                     }
                 });
                 calculateAverage(row);  // Recalculate the average based on saved data
@@ -128,8 +128,8 @@
         const tableData = {};
         document.querySelectorAll('tbody tr').forEach(row => {
             const rowId = row.id;
-            const inputCells = row.querySelectorAll('.input-cell');
-            const rowValues = Array.from(inputCells).map(cell => parseFloat(cell.value) || 0);
+            const editableCells = row.querySelectorAll('.editable');
+            const rowValues = Array.from(editableCells).map(cell => parseFloat(cell.textContent) || 0);
             tableData[rowId] = rowValues;
         });
         localStorage.setItem('tableData', JSON.stringify(tableData));
@@ -137,13 +137,13 @@
 
     // Function to calculate average of the row
     function calculateAverage(row) {
-        const cells = row.querySelectorAll('td.editable input'); // Select the editable cells
+        const cells = row.querySelectorAll('td.editable'); // Select the editable cells
         let sum = 0;
         let count = 0;
 
         // Iterate through each cell and sum up the values
         cells.forEach(cell => {
-            const value = parseFloat(cell.value);
+            const value = parseFloat(cell.textContent);
             if (!isNaN(value)) {
                 sum += value;
                 count++;
@@ -157,16 +157,16 @@
     }
 
     // Add event listeners to editable cells
-    document.querySelectorAll('.editable input').forEach(input => {
-        // Event listener for when the user clicks away from the input (blur event)
-        input.addEventListener('blur', function() {
+    document.querySelectorAll('.editable').forEach(cell => {
+        // Event listener for when the user clicks away from the cell (blur event)
+        cell.addEventListener('blur', function() {
             const row = this.closest('tr');
-            calculateAverage(row); // Recalculate the average when the input loses focus
+            calculateAverage(row); // Recalculate the average when the cell loses focus
             saveData(); // Save data after input change
         });
 
         // Event listener for when the user presses the Enter key
-        input.addEventListener('keypress', function(event) {
+        cell.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 const row = this.closest('tr');
                 calculateAverage(row); // Recalculate the average when Enter is pressed
@@ -178,7 +178,6 @@
     // Initial data load from localStorage
     window.onload = loadData;
 </script>
-
 
 </body>
 </html>
