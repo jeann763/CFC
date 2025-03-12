@@ -169,11 +169,8 @@
 	</table>
 
 <script>
+const pageKey = "fridaymendeleev"; 
 
-// Set a unique key for each page (e.g., based on the day or file)
-const pageKey = "fridaymendeleev"; // Change this to match the specific day/page
-
-// Save data when the user leaves the page
 window.addEventListener('beforeunload', saveData);
 
 function saveData() {
@@ -185,7 +182,7 @@ function saveData() {
 	
     localStorage.setItem(pageKey, JSON.stringify(data));
 	
-    console.log("Data saved:", data); // Log data being saved
+    console.log("Data saved:", data); 
 }
 
 function loadData() {
@@ -197,18 +194,16 @@ function loadData() {
                 cell.textContent = data[index];
             }
         });
-        console.log("Data loaded:", data); // Log data being loaded
+        console.log("Data loaded:", data); 
     }
 }
 
-// Event listener for page load
 window.addEventListener('load', function() {
     loadData();
     makeEditable();
-    calculateAverage(); // Calculate average on page load
+    calculateAverage(); 
 });
 	
-// Manually trigger save when editing ends
 function makeEditable() {
     const editableCells = document.querySelectorAll('.editable');
     editableCells.forEach(function(cell) {
@@ -218,38 +213,33 @@ function makeEditable() {
             input.type = 'text';
             input.value = currentText;
 
-            // Replace the cell content with an input box
             cell.textContent = '';
             cell.appendChild(input);
 
-            // Focus the input
             input.focus();
 
             input.addEventListener('focusout', function() {
                 let newValue = input.value.trim();
-                cell.textContent = newValue || '';  // If blank, leave the cell empty
-                calculateAverage();  // Recalculate the average after editing
-                saveData();  // Save data immediately after editing
+                cell.textContent = newValue || '';  
+                calculateAverage();  
+                saveData();  
             });
 
             input.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
-                    input.blur(); // Trigger focusout manually on Enter key
+                    input.blur(); 
                 }
             });
         });
     });
 }
 
-// Function to calculate the average and update the result in both tables
 function calculateAverage() {
     let sum = 0;
     let count = 0;
 
-    // Select all editable cells that have a data attribute 'data-include-average' set to 'true'
     let editableCells = document.querySelectorAll('.editable[data-include-average="true"]');
 
-    // Loop through each editable cell and sum the values
     editableCells.forEach(function(cell) {
         let cellValue = parseFloat(cell.textContent.trim());
         if (!isNaN(cellValue)) {
@@ -258,20 +248,16 @@ function calculateAverage() {
         }
     });
 
-    // Calculate the average
     let average = (count > 0) ? sum / count : 0;
 
-    // Display the result in the 'averageResult' span of table 1
     document.getElementById('averageResult').textContent = average.toFixed(2);
 
-    // Now, update the general average in third table (Gen. Ave. Rating)
     const thirdTableAvg = document.querySelector('#thirdTable #averageResult');
     if (thirdTableAvg) {
         thirdTableAvg.textContent = average.toFixed(2);
     }
 }
 
-// Function for confirming action (you can define what it does)
 function confirmAction() {
     alert("Confirmation action triggered!");
 }
